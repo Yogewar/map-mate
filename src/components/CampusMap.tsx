@@ -1,5 +1,6 @@
 
-import React from 'react';
+import React, { useState, useCallback } from 'react';
+import { GoogleMap, LoadScript, Marker, Polyline, InfoWindow } from '@react-google-maps/api';
 import { Location, Route } from '../data/campusData';
 
 interface CampusMapProps {
@@ -9,15 +10,27 @@ interface CampusMapProps {
   onLocationClick: (locationId: string) => void;
 }
 
+// Map container style
+const containerStyle = {
+  width: '100%',
+  height: '500px',
+  borderRadius: '0.5rem'
+};
+
+// SRM Kattankulathur campus approximate center
+const center = {
+  lat: 12.8230, 
+  lng: 80.0444
+};
+
 const CampusMap: React.FC<CampusMapProps> = ({
   locations,
   selectedRoute,
   selectedLocation,
   onLocationClick
 }) => {
-  // Map dimensions
-  const mapWidth = 600;
-  const mapHeight = 450;
+  const [map, setMap] = useState<google.maps.Map | null>(null);
+  const [infoWindowId, setInfoWindowId] = useState<string | null>(null);
   
   // Define colors based on location category
   const getCategoryColor = (category: Location['category']): string => {
@@ -31,9 +44,31 @@ const CampusMap: React.FC<CampusMapProps> = ({
       default: return '#4f46e5';
     }
   };
+
+  // Convert SVG coordinates to Lat/Lng for Google Maps
+  // This is a simplistic conversion - you might need to adjust based on your data
+  const mapCoordinateToLatLng = (x: number, y: number) => {
+    // Convert the SVG coordinates to latitude and longitude
+    // This is an approximation - you'll need to adjust these values based on your campus layout
+    const latOffset = (y - 250) * 0.0001;
+    const lngOffset = (x - 300) * 0.0001;
+    
+    return {
+      lat: center.lat + latOffset,
+      lng: center.lng + lngOffset
+    };
+  };
   
+  const onLoad = useCallback((map: google.maps.Map) => {
+    setMap(map);
+  }, []);
+
+  const onUnmount = useCallback(() => {
+    setMap(null);
+  }, []);
+
   return (
-    <div className="relative w-full overflow-hidden border rounded-lg shadow-lg">
+    <div className="relative w-full h-[500px] overflow-hidden border rounded-lg shadow-lg">
       <div className="absolute top-4 right-4 bg-white p-2 rounded shadow-md z-10">
         <h3 className="text-sm font-semibold mb-1">Legend</h3>
         <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-xs">
@@ -64,93 +99,72 @@ const CampusMap: React.FC<CampusMapProps> = ({
         </div>
       </div>
       
-      <svg 
-        width="100%" 
-        height="100%" 
-        viewBox={`0 0 ${mapWidth} ${mapHeight}`}
-        className="bg-campus-background"
-        preserveAspectRatio="xMidYMid meet"
-      >
-        {/* SRM University campus background */}
-        <rect x="50" y="50" width="500" height="350" fill="#e5e7eb" rx="20" />
-        
-        {/* Main campus roads */}
-        <path d="M100,150 L500,150" stroke="#d1d5db" strokeWidth="8" strokeLinecap="round" />
-        <path d="M100,250 L500,250" stroke="#d1d5db" strokeWidth="8" strokeLinecap="round" />
-        <path d="M100,350 L500,350" stroke="#d1d5db" strokeWidth="6" strokeLinecap="round" />
-        <path d="M150,50 L150,400" stroke="#d1d5db" strokeWidth="8" strokeLinecap="round" />
-        <path d="M300,50 L300,400" stroke="#d1d5db" strokeWidth="10" strokeLinecap="round" />
-        <path d="M450,50 L450,400" stroke="#d1d5db" strokeWidth="8" strokeLinecap="round" />
-        
-        {/* Green spaces */}
-        <ellipse cx="220" cy="200" rx="30" ry="25" fill="#a7f3d0" stroke="#059669" strokeWidth="1" />
-        <ellipse cx="380" cy="300" rx="40" ry="30" fill="#a7f3d0" stroke="#059669" strokeWidth="1" />
-        
-        {/* Buildings */}
-        <rect x="250" y="80" width="100" height="60" fill="#c7d2fe" stroke="#4f46e5" strokeWidth="2" rx="3" />
-        <rect x="150" y="180" width="70" height="40" fill="#c7d2fe" stroke="#4f46e5" strokeWidth="2" rx="3" />
-        <rect x="380" y="80" width="50" height="40" fill="#c7d2fe" stroke="#4f46e5" strokeWidth="2" rx="3" />
-        <rect x="170" y="300" width="80" height="40" fill="#a7f3d0" stroke="#10b981" strokeWidth="2" rx="3" />
-        <rect x="400" y="300" width="80" height="40" fill="#a7f3d0" stroke="#10b981" strokeWidth="2" rx="3" />
-        <rect x="330" y="170" width="40" height="40" fill="#fef3c7" stroke="#f59e0b" strokeWidth="2" rx="3" />
-        <rect x="430" y="230" width="60" height="40" fill="#fee2e2" stroke="#ef4444" strokeWidth="2" rx="3" />
-        <rect x="230" y="230" width="60" height="40" fill="#c7d2fe" stroke="#4f46e5" strokeWidth="2" rx="3" />
-        
-        {/* Draw route if selected */}
-        {selectedRoute && (
-          <>
-            <path
-              d={`M${selectedRoute.path.map(p => `${p.x},${p.y}`).join(' L')}`}
-              stroke="#4f46e5"
-              strokeWidth="4"
-              strokeDasharray="5,5"
-              fill="none"
+      <LoadScript googleMapsApiKey="">
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={center}
+          zoom={17}
+          onLoad={onLoad}
+          onUnmount={onUnmount}
+          options={{
+            mapTypeId: 'satellite',
+            zoomControl: true,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: true,
+          }}
+        >
+          {/* Markers for all locations */}
+          {locations.map(location => {
+            const position = mapCoordinateToLatLng(location.coordinates.x, location.coordinates.y);
+            return (
+              <Marker
+                key={location.id}
+                position={position}
+                onClick={() => {
+                  onLocationClick(location.id);
+                  setInfoWindowId(location.id);
+                }}
+                icon={{
+                  path: google.maps.SymbolPath.CIRCLE,
+                  scale: selectedLocation === location.id ? 10 : 8,
+                  fillColor: getCategoryColor(location.category),
+                  fillOpacity: 0.8,
+                  strokeColor: selectedLocation === location.id ? 'white' : getCategoryColor(location.category),
+                  strokeWeight: 2,
+                }}
+              >
+                {infoWindowId === location.id && (
+                  <InfoWindow
+                    position={position}
+                    onCloseClick={() => setInfoWindowId(null)}
+                  >
+                    <div className="p-1">
+                      <h3 className="font-medium">{location.name}</h3>
+                      <p className="text-xs">{location.description}</p>
+                    </div>
+                  </InfoWindow>
+                )}
+              </Marker>
+            );
+          })}
+
+          {/* Draw route if selected */}
+          {selectedRoute && (
+            <Polyline
+              path={selectedRoute.path.map(point => 
+                mapCoordinateToLatLng(point.x, point.y)
+              )}
+              options={{
+                strokeColor: '#4f46e5',
+                strokeOpacity: 0.8,
+                strokeWeight: 4,
+                geodesic: true,
+              }}
             />
-            <circle 
-              cx={selectedRoute.from.coordinates.x} 
-              cy={selectedRoute.from.coordinates.y} 
-              r="8" 
-              fill="#10b981" 
-            />
-            <circle 
-              cx={selectedRoute.to.coordinates.x} 
-              cy={selectedRoute.to.coordinates.y} 
-              r="8" 
-              fill="#ef4444" 
-            />
-          </>
-        )}
-        
-        {/* Draw location markers */}
-        {locations.map((location) => (
-          <g 
-            key={location.id} 
-            onClick={() => onLocationClick(location.id)}
-            style={{ cursor: 'pointer' }}
-          >
-            <circle 
-              cx={location.coordinates.x} 
-              cy={location.coordinates.y} 
-              r={selectedLocation === location.id ? "10" : "6"} 
-              fill={getCategoryColor(location.category)}
-              className="transition-all duration-200"
-              stroke={selectedLocation === location.id ? "white" : "none"}
-              strokeWidth="2"
-            />
-            <text 
-              x={location.coordinates.x} 
-              y={location.coordinates.y + 20} 
-              textAnchor="middle" 
-              fontSize="10" 
-              fill="#1f2937"
-              fontWeight={selectedLocation === location.id ? "bold" : "normal"}
-              className="select-none"
-            >
-              {location.name}
-            </text>
-          </g>
-        ))}
-      </svg>
+          )}
+        </GoogleMap>
+      </LoadScript>
     </div>
   );
 };
