@@ -24,62 +24,76 @@ export interface Route {
   }>;
 }
 
-// Sample campus locations data
+// SRM University Kattankulathur campus locations data
 export const campusLocations: Location[] = [
   {
-    id: "science-hall",
-    name: "Science Hall",
-    coordinates: { x: 200, y: 150 },
-    description: "Main science building with labs and lecture halls",
-    category: "academic"
+    id: "main-building",
+    name: "University Building",
+    coordinates: { x: 300, y: 150 },
+    description: "Main administrative and academic building",
+    category: "administrative"
   },
   {
-    id: "student-center",
-    name: "Student Center",
-    coordinates: { x: 350, y: 200 },
-    description: "Central building for student activities and dining",
-    category: "dining"
+    id: "tech-park",
+    name: "Tech Park",
+    coordinates: { x: 200, y: 120 },
+    description: "Technology and engineering labs",
+    category: "academic"
   },
   {
     id: "library",
-    name: "Main Library",
-    coordinates: { x: 280, y: 120 },
-    description: "University's main library with study spaces",
+    name: "Central Library",
+    coordinates: { x: 380, y: 130 },
+    description: "University's main library and knowledge center",
     category: "academic"
   },
   {
-    id: "dorm-a",
-    name: "Residence Hall A",
-    coordinates: { x: 150, y: 300 },
-    description: "Freshman dormitory",
+    id: "hostel-mens",
+    name: "Men's Hostel",
+    coordinates: { x: 150, y: 320 },
+    description: "Men's dormitory",
     category: "residential"
   },
   {
-    id: "admin-building",
-    name: "Administration Building",
-    coordinates: { x: 400, y: 100 },
-    description: "Houses administrative offices and registrar",
-    category: "administrative"
+    id: "hostel-womens",
+    name: "Women's Hostel",
+    coordinates: { x: 450, y: 320 },
+    description: "Women's dormitory",
+    category: "residential"
+  },
+  {
+    id: "food-court",
+    name: "Food Court",
+    coordinates: { x: 350, y: 190 },
+    description: "Main dining area with multiple food options",
+    category: "dining"
   },
   {
     id: "sports-complex",
     name: "Sports Complex",
-    coordinates: { x: 450, y: 350 },
-    description: "Gymnasium, pool, and fitness center",
+    coordinates: { x: 450, y: 250 },
+    description: "Stadium, gym, and sports facilities",
     category: "athletic"
   },
   {
-    id: "engineering-building",
-    name: "Engineering Building",
-    coordinates: { x: 320, y: 250 },
-    description: "Home to the engineering department",
+    id: "auditorium",
+    name: "Dr. T.P. Ganesan Auditorium",
+    coordinates: { x: 250, y: 250 },
+    description: "Main event space and auditorium",
     category: "academic"
   },
   {
-    id: "west-parking",
-    name: "West Parking Lot",
+    id: "medical-center",
+    name: "Medical Center",
+    coordinates: { x: 400, y: 210 },
+    description: "Campus health and medical services",
+    category: "administrative"
+  },
+  {
+    id: "parking-main",
+    name: "Main Parking",
     coordinates: { x: 100, y: 200 },
-    description: "Main parking area on west side of campus",
+    description: "Main parking area",
     category: "parking"
   }
 ];

@@ -24,8 +24,8 @@ const Index = () => {
       <Header />
       
       <main className="flex-1 container py-8 px-4 md:px-6">
-        <h1 className="text-3xl font-bold text-campus-primary mb-2">Campus Navigator</h1>
-        <p className="text-gray-600 mb-8">Find the best route between any two locations on campus</p>
+        <h1 className="text-3xl font-bold text-campus-primary mb-2">SRM University Navigator</h1>
+        <p className="text-gray-600 mb-8">Find the best route between locations on Kattankulathur campus</p>
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
@@ -54,7 +54,7 @@ const Index = () => {
       <footer className="bg-white border-t py-6">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-sm text-gray-600">© 2025 Campus Navigator. All rights reserved.</p>
+            <p className="text-sm text-gray-600">© 2025 SRM University Navigator. All rights reserved.</p>
             <div className="flex gap-4 mt-4 md:mt-0">
               <a href="#" className="text-sm text-gray-600 hover:text-campus-primary">Privacy Policy</a>
               <a href="#" className="text-sm text-gray-600 hover:text-campus-primary">Terms of Service</a>

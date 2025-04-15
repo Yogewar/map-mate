@@ -1,78 +1,27 @@
 
 import React from 'react';
-import { MapPinIcon, MenuIcon } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { MapIcon } from 'lucide-react';
 
 const Header = () => {
   return (
-    <header className="sticky top-0 z-50 w-full bg-white border-b shadow-sm">
-      <div className="container flex items-center justify-between h-16 px-4 md:px-6">
+    <header className="bg-white shadow-sm border-b">
+      <div className="container flex justify-between items-center py-4 px-4 md:px-6">
         <div className="flex items-center gap-2">
-          <MapPinIcon className="w-6 h-6 text-campus-primary" />
-          <h1 className="text-xl font-bold tracking-tight text-campus-primary">
-            Campus Navigator
-          </h1>
+          <div className="bg-campus-primary p-2 rounded-md">
+            <MapIcon className="h-6 w-6 text-white" />
+          </div>
+          <div>
+            <h1 className="text-xl font-bold text-campus-primary">SRM Navigator</h1>
+            <p className="text-xs text-gray-500">Kattankulathur Campus</p>
+          </div>
         </div>
         
-        <div className="hidden md:flex items-center gap-6">
-          <nav className="flex items-center gap-6">
-            <a href="/" className="text-sm font-medium hover:text-campus-primary transition-colors">
-              Home
-            </a>
-            <a href="#" className="text-sm font-medium hover:text-campus-primary transition-colors">
-              Campus Map
-            </a>
-            <a href="#" className="text-sm font-medium hover:text-campus-primary transition-colors">
-              Points of Interest
-            </a>
-            <a href="#" className="text-sm font-medium hover:text-campus-primary transition-colors">
-              About
-            </a>
-          </nav>
-          <Button variant="outline" className="border-campus-primary text-campus-primary hover:bg-campus-primary hover:text-white">
-            Login
-          </Button>
-        </div>
-        
-        <Sheet>
-          <SheetTrigger asChild className="md:hidden">
-            <Button variant="ghost" size="icon">
-              <MenuIcon className="w-5 h-5" />
-              <span className="sr-only">Toggle navigation menu</span>
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="right">
-            <SheetHeader>
-              <SheetTitle>Campus Navigator</SheetTitle>
-              <SheetDescription>Find your way around campus</SheetDescription>
-            </SheetHeader>
-            <nav className="flex flex-col gap-4 mt-6">
-              <a href="/" className="px-4 py-2 text-sm rounded-md hover:bg-gray-100 transition-colors">
-                Home
-              </a>
-              <a href="#" className="px-4 py-2 text-sm rounded-md hover:bg-gray-100 transition-colors">
-                Campus Map
-              </a>
-              <a href="#" className="px-4 py-2 text-sm rounded-md hover:bg-gray-100 transition-colors">
-                Points of Interest
-              </a>
-              <a href="#" className="px-4 py-2 text-sm rounded-md hover:bg-gray-100 transition-colors">
-                About
-              </a>
-              <Button className="mt-2 bg-campus-primary hover:bg-campus-secondary">
-                Login
-              </Button>
-            </nav>
-          </SheetContent>
-        </Sheet>
+        <nav className="hidden md:flex items-center gap-6">
+          <a href="#" className="text-sm font-medium text-gray-600 hover:text-campus-primary">Map</a>
+          <a href="#" className="text-sm font-medium text-gray-600 hover:text-campus-primary">Buildings</a>
+          <a href="#" className="text-sm font-medium text-gray-600 hover:text-campus-primary">Events</a>
+          <a href="#" className="text-sm font-medium text-gray-600 hover:text-campus-primary">About</a>
+        </nav>
       </div>
     </header>
   );

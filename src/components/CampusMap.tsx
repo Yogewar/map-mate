@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Location, Route } from '../data/campusData';
 
 interface CampusMapProps {
@@ -71,14 +71,30 @@ const CampusMap: React.FC<CampusMapProps> = ({
         className="bg-campus-background"
         preserveAspectRatio="xMidYMid meet"
       >
-        {/* Campus background elements */}
+        {/* SRM University campus background */}
         <rect x="50" y="50" width="500" height="350" fill="#e5e7eb" rx="20" />
         
-        {/* Paths/roads */}
-        <path d="M100,150 L500,150" stroke="#d1d5db" strokeWidth="10" strokeLinecap="round" />
-        <path d="M100,300 L500,300" stroke="#d1d5db" strokeWidth="10" strokeLinecap="round" />
-        <path d="M200,50 L200,400" stroke="#d1d5db" strokeWidth="10" strokeLinecap="round" />
-        <path d="M400,50 L400,400" stroke="#d1d5db" strokeWidth="10" strokeLinecap="round" />
+        {/* Main campus roads */}
+        <path d="M100,150 L500,150" stroke="#d1d5db" strokeWidth="8" strokeLinecap="round" />
+        <path d="M100,250 L500,250" stroke="#d1d5db" strokeWidth="8" strokeLinecap="round" />
+        <path d="M100,350 L500,350" stroke="#d1d5db" strokeWidth="6" strokeLinecap="round" />
+        <path d="M150,50 L150,400" stroke="#d1d5db" strokeWidth="8" strokeLinecap="round" />
+        <path d="M300,50 L300,400" stroke="#d1d5db" strokeWidth="10" strokeLinecap="round" />
+        <path d="M450,50 L450,400" stroke="#d1d5db" strokeWidth="8" strokeLinecap="round" />
+        
+        {/* Green spaces */}
+        <ellipse cx="220" cy="200" rx="30" ry="25" fill="#a7f3d0" stroke="#059669" strokeWidth="1" />
+        <ellipse cx="380" cy="300" rx="40" ry="30" fill="#a7f3d0" stroke="#059669" strokeWidth="1" />
+        
+        {/* Buildings */}
+        <rect x="250" y="80" width="100" height="60" fill="#c7d2fe" stroke="#4f46e5" strokeWidth="2" rx="3" />
+        <rect x="150" y="180" width="70" height="40" fill="#c7d2fe" stroke="#4f46e5" strokeWidth="2" rx="3" />
+        <rect x="380" y="80" width="50" height="40" fill="#c7d2fe" stroke="#4f46e5" strokeWidth="2" rx="3" />
+        <rect x="170" y="300" width="80" height="40" fill="#a7f3d0" stroke="#10b981" strokeWidth="2" rx="3" />
+        <rect x="400" y="300" width="80" height="40" fill="#a7f3d0" stroke="#10b981" strokeWidth="2" rx="3" />
+        <rect x="330" y="170" width="40" height="40" fill="#fef3c7" stroke="#f59e0b" strokeWidth="2" rx="3" />
+        <rect x="430" y="230" width="60" height="40" fill="#fee2e2" stroke="#ef4444" strokeWidth="2" rx="3" />
+        <rect x="230" y="230" width="60" height="40" fill="#c7d2fe" stroke="#4f46e5" strokeWidth="2" rx="3" />
         
         {/* Draw route if selected */}
         {selectedRoute && (
