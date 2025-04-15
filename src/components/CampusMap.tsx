@@ -99,7 +99,7 @@ const CampusMap: React.FC<CampusMapProps> = ({
         </div>
       </div>
       
-      <LoadScript googleMapsApiKey="">
+      <LoadScript googleMapsApiKey="YOUR_GOOGLE_MAPS_API_KEY_HERE">
         <GoogleMap
           mapContainerStyle={containerStyle}
           center={center}
